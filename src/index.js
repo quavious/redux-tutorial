@@ -17,37 +17,77 @@
 // reportWebVitals();
 import {createStore} from 'redux'
 
-const plus = document.getElementById("plus")
-const minus = document.getElementById("minus")
-let value = document.getElementById("value")
-let count = 0;
+const form = document.getElementById("form")
+const input = document.getElementById("todo")
+const button = document.getElementById("button")
+const ul = document.getElementById("todos")
 
-const INCREMENT = "INCREMENT"
-const DISCREMENT = "DISCREMENT"
+const ADD_TODO = "ADD_TODO"
+const DELETE_TODO = "DELETE_TODO";
 
-const reducer = (state=0, action) => {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    case "DISCREMENT":
-      return state - 1;
-    default:
-      return state
+const addToDo = (text) => {
+  return {
+    type: ADD_TODO,
+    text
   }
-};
-const store = createStore(reducer);
+}
 
-store.subscribe(() => {
-  console.log(store.getState())
-  value.innerText = store.getState()
-});
+const deleteToDo = (id) => {
+  return {
+    type: DELETE_TODO,
+    id
+  }
+}
 
-plus.addEventListener("click", () => {
-  store.dispatch({type: INCREMENT})
+const reducer = (state = [], action) => {
+  switch (action.type) {
+    case ADD_TODO:
+      // Never Mutate State.
+      return [{text: action.text, id: Date.now()}, ...state]
+    case DELETE_TODO:
+      return state.filter(el => el.id !== parseInt(action.id, 10))
+    default:
+      return state;
+  }
+}
+
+const store = createStore(reducer)
+
+store.subscribe(() => console.log(store.getState()))
+store.subscribe(() => paintToDos())
+
+const dispatchAddToDo = (text) => {
+  store.dispatch(addToDo(text))
+}
+
+const dispatchDeleteToDo = (e) => {
+  const targetId = e.target.parentNode.id
+  store.dispatch(deleteToDo(targetId))
+}
+
+const paintToDos = () => {
+  const toDos = store.getState();
+  ul.innerHTML = "";
+  input.value = "";
+
+  toDos.forEach(todo => {
+    const li = document.createElement("li")
+    const btn = document.createElement("button")
+    
+    btn.innerText = "delete"
+    btn.addEventListener("click", (e) => dispatchDeleteToDo(e))
+
+    li.id = todo.id
+    li.innerText = todo.text
+    li.appendChild(btn)
+    
+    ul.appendChild(li)
+  })
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault()
+  dispatchAddToDo(input.value)
 })
 
-minus.addEventListener("click", () => {
-  store.dispatch({type: DISCREMENT})
-})
 
-console.log(store.getState())

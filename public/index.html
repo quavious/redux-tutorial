@@ -40,9 +40,11 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <div class='container'>
-      <button id="plus">Plus</button>
-      <span id="value">0</span>
-      <button id="minus">Minus</button>
+      <form id="form">
+        <input type="text" name="todo" id="todo" placeholder="What to do" />
+        <button id="button">ADD</button>
+      </form>
+      <ul id="todos"></ul>
     </div>
   </body>
 </html>

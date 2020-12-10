@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import {connect} from 'react-redux'
 
-const Home = () => {
+const Home = (props) => {
+    const {toDos} = props;
+
     const [text, setText] = useState("");
     const onChange = (e) => {
         e.preventDefault();
@@ -18,8 +21,18 @@ const Home = () => {
             <input type="text" value={text} onChange={onChange} name="todo" id="todo"/>
             <button id="add">ADD</button>
         </form>
-        <ul id="list"></ul>
+        <ul id="list">
+            {toDos.map(el => <li>{el}</li>)}
+        </ul>
     </>
 }
 
-export default Home;
+// Not The State In Component Home. The State from Redux Store.
+const mapStateToProps = (state, ownProps) => {
+    // mapStateToProps function
+    return {
+        toDos: state
+    }
+}
+
+export default connect(mapStateToProps)(Home);

@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
+import {actionTriggers} from '../store'
+import ToDo from '../components/to-do'
 
 const Home = (props) => {
-    const {toDos} = props;
+    const {toDos, addToDo} = props;
 
     const [text, setText] = useState("");
     const onChange = (e) => {
@@ -12,8 +14,10 @@ const Home = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        console.log(text)
+        addToDo(text)
         setText("");
+
+        console.log(toDos)
     }
     return <>
         <h1>To Do</h1>
@@ -22,7 +26,7 @@ const Home = (props) => {
             <button id="add">ADD</button>
         </form>
         <ul id="list">
-            {toDos.map(el => <li>{el}</li>)}
+            {toDos.map((el) => <ToDo key={el.id} text={el.text} id={el.id}/>)}
         </ul>
     </>
 }
@@ -35,4 +39,10 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addToDo : (text) => dispatch(actionTriggers.addToDo(text))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

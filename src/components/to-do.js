@@ -1,12 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {actionTriggers} from '../store'
 
 const ToDos = ({text, id, deleteToDo}) => {
     return (
         <li id={id}>
-            {text} <button onClick={() => deleteToDo(id)}>DELETE</button>
+            <Link to={`/${id}`}>
+                {text} <button onClick={() => deleteToDo(id)}>DELETE</button>
+            </Link>
         </li>
     )
 }

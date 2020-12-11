@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
-import {actionTriggers} from '../store'
+import {addToDo, deleteToDo} from '../store'
 import ToDo from '../components/to-do'
 
 const Home = (props) => {
@@ -41,7 +41,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        addToDo : (text) => dispatch(actionTriggers.addToDo(text))
+        addToDo : (text) => dispatch(addToDo(text))
     }
 }
 

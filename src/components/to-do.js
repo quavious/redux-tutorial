@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import {actionTriggers} from '../store'
+import {deleteToDo} from '../store'
 
 const ToDos = ({text, id, deleteToDo}) => {
     return (
@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // We Can Use ownProps instead of ToDo Element id.
     // Not Knowing How ownProps Works... :(
     return {
-        deleteToDo : (id) => dispatch(actionTriggers.deleteToDo(id))
+        deleteToDo : (id) => dispatch(deleteToDo(id))
     }
 }
 

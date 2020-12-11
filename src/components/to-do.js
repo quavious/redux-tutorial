@@ -8,8 +8,9 @@ const ToDos = ({text, id, deleteToDo}) => {
     return (
         <li id={id}>
             <Link to={`/${id}`}>
-                {text} <button onClick={() => deleteToDo(id)}>DELETE</button>
+                {text}
             </Link>
+            <button onClick={() => deleteToDo(id)}>DELETE</button>
         </li>
     )
 }
